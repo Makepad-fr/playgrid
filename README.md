@@ -41,5 +41,5 @@ All contributions are welcome. Please read [contribution guidelines](./CONTRIBUT
 
 ## License
 
-All source code is licensed under [GNU GENERAL PUBLIC LICENSE Version 3.0](./LICENSE). But we are not closed to the propretary use of the project, if it's you case please [contact us][mailto:dev@makepad.fr] 
+All source code is licensed under [GNU GENERAL PUBLIC LICENSE Version 3.0](./LICENSE). But we are not closed to the propretary use of the project, if it's you case please [contact us](mailto:dev@makepad.fr)
 
