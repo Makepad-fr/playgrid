@@ -24,7 +24,7 @@ This project extensively uses the following technologies:
 
 ## Getting Started
 
-### Installing the library
+### Installing the library
 
 ```bash
 npm install @makepad/paas
