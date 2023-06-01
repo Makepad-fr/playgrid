@@ -1,7 +1,10 @@
 import { firefox } from "playwright-core";
 
+const SERVER_URL = 'localhost:9988';
+
 async function main() {
-    const browser = await firefox.connect('ws://localhost:9988', {
+    
+    const browser = await firefox.connect(`ws://${SERVER_URL}`, {
         headers: {
             "paas-browser-type": "firefox"
         }
