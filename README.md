@@ -6,7 +6,7 @@ PAAS is designed with a custom authentication system, allowing clients to authen
 
 Furthermore, PAAS aims to extend its capabilities to support a wider community of users. The future goal is to enable individuals to connect their home-based Playwright servers to the PAAS infrastructure, potentially earning a profit if their servers are used by others.
 
-This project was born out of the needs faced during the development of [Linkedin.js](https://github.com/Makepad-fr), an open-source npm package that automates LinkedIn.
+This project was born out of the needs faced during the development of [Linkedin.js](https://github.com/Makepad-fr/linkedin.js), an open-source npm package that automates LinkedIn.
 
 ## Features
 
