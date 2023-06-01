@@ -13,6 +13,9 @@ async function main() {
     await page.goto('https://google.com');
     await page.close();
     await browser.close();
+
+    const apiResult = await fetch(`http://${SERVER_URL}/test`)
+    console.log(`API result: ${JSON.stringify(await apiResult.json())}`);
 }
 
 main().then();

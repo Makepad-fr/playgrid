@@ -5,7 +5,7 @@ import url from 'url';
 import { BrowserTypeString, isBrowserTypeString } from "./browser-pool-element";
 // TODO: Update import statement
 import * as stream from 'node:stream';
-
+import express, { Express } from "express";
 
 type AuthenticationFunction = (req: http.IncomingMessage) => Promise<string | undefined>;
 
@@ -16,6 +16,7 @@ export class PlaywrightServer {
     readonly #webSocketServer;
     readonly #browserPool: BrowserPool;
     readonly #authenticate: AuthenticationFunction;
+    readonly #app: Express;
 
     /**
      * Starts the current HTTP server with the given port number
@@ -40,7 +41,10 @@ export class PlaywrightServer {
     }
 
     private constructor(pool: BrowserPool, authenticateFunction: AuthenticationFunction) {
-        this.#server = http.createServer();
+        // Create the express app for other endpoints
+        this.#app = express();
+        // Pass the express app to the http.Server
+        this.#server = http.createServer(this.#app);
         this.#webSocketServer = new WebSocket.Server({ noServer: true });
         this.#browserPool = pool;
         this.#authenticate = authenticateFunction;
@@ -51,8 +55,8 @@ export class PlaywrightServer {
         this.#server.on('close', () => {
             console.log(`Browser pool size: ${this.#browserPool.size}`);
             console.log('Connection closed');
-
         })
+        this.#initEndpoints();
     }
 
     /**
@@ -159,6 +163,16 @@ export class PlaywrightServer {
         console.debug(`Connection between client and playwright server is closed`);
 
         socket.destroy();
+    }
+
+    /**
+     * Initialises the endpoints for Express app
+     */
+    #initEndpoints() {
+        // TODO: Add custom endpoints for the API here
+        this.#app.get('/test', async (req: express.Request, res: express.Response) => {
+            res.json({ message: 'Hello, this is your custom endpoint!' });
+        });
     }
 
 
