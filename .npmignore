@@ -1,0 +1,6 @@
+./src/
+.git/
+./dist/example-*
+tsconfig.json
+.gitignore
+.eslintrc.json
