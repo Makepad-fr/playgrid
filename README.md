@@ -18,9 +18,9 @@ This project was born out of the needs faced during the development of [Linkedin
 
 This project extensively uses the following technologies:
 
-- **Playwright**: Playwright is a Node.js library to automate the Chromium, WebKit, and Firefox browsers with a single API. In PAAS, we use Playwright's connect method to provide an interface for running tests from home IP addresses.
-- **Express.js**: Express.js is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. We use Express.js in PAAS to create our HTTP server.
-- **TypeScript**: TypeScript is an open-source language which builds on JavaScript, one of the world's most used tools, by adding static type definitions. TypeScript helps us write safer and more understandable code in PAAS.
+- [**Playwright**](https://playwright.dev): [Playwright](https://playwright.dev) is a Node.js library to automate the Chromium, WebKit, and Firefox browsers with a single API. In PAAS, we use [Playwright](https://playwright.dev)'s [connect](https://playwright.dev/docs/api/class-browsertype#browser-type-connect) method to provide an interface for running tests from home IP addresses.
+- [**Express.js**](https://expressjs.com/): [Express.js](https://expressjs.com/) is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. We use Express.js in PAAS to create our HTTP server.
+- [**TypeScript**](https://www.typescriptlang.org/): TypeScript is an open-source language which builds on JavaScript, one of the world's most used tools, by adding static type definitions. [TypeScript](https://www.typescriptlang.org/) helps us write safer and more understandable code in PAAS.
 
 ## Getting Started
 
