@@ -1,1 +1,1 @@
-console.log('Welcome from @paas/core package')
+console.log('Welcome from @playgrid/core package')

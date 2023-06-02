@@ -1,8 +1,8 @@
 {
-    "name": "@paas/web-app",
+    "name": "@playgrid/web-app",
     "private": true,
     "dependencies": {
-        "@paas/server": "workspace:*"
+        "@playgrid/server": "workspace:*"
     },
     "devDependencies": {
         "@makepad/eslint-config": "workspace:*",
@@ -12,7 +12,7 @@
         "eslint": "8.41.0",
         "tslib": "^2.5.2",
         "typescript": "^5.0.0"
-      },
+    },
     "scripts": {
         "test": "node_modules/.bin/jest",
         "lint": "./node_modules/.bin/eslint",
@@ -24,5 +24,6 @@
         "prestart": "npm run build",
         "prepublish": "npm run build",
         "start": "node dist/server.js"
-      }
+    },
+    "version": null
 }

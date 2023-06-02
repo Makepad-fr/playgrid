@@ -1,5 +1,5 @@
 packages:
-  - "libs/*" # Contains libraries published on npm @paas/server and @paas/daemon libraries
+  - "libs/*" # Contains libraries published on npm @playgrid/server and @playgrid/daemon libraries
   - "core" # Contains common classes, types, interfaces used by both daemon and server
   - "config/*" # TODO: Contains @makepad tsconfig and eslintconfig should be moved to a standalone repository 
   # TODO: Uncomment when server and daemon implementation is done

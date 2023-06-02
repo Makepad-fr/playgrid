@@ -1,6 +1,6 @@
 {
-  "name": "@paas/server",
-  "version": "0.0.1",
+  "name": "@playgrid/server",
+  "version": "0.0.2",
   "description": "Playwright As A Service",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -67,7 +67,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "@paas/core": "workspace:*",
+    "@playgrid/core": "workspace:*",
     "express": "^4.18.2",
     "playwright": "^1.34.3",
     "playwright-core": "^1.29.2",

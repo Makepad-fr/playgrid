@@ -1,5 +1,5 @@
 {
-    "name": "@paas/deamon",
+    "name": "@playgrid/deamon",
     "private": false,
     "devDependencies": {
         "@makepad/eslint-config": "workspace:*",
@@ -11,7 +11,7 @@
         "typescript": "^5.0.0"
       },
       "dependencies": {
-        "@paas/core": "workspace:*"
+        "@playgrid/core": "workspace:*"
       },
     "scripts": {
         "test": "node_modules/.bin/jest",
@@ -24,4 +24,5 @@
         "prestart": "npm run build",
         "prepublish": "npm run build",
         "start": "node dist/server.js"
-      }}
+      }
+    }

@@ -1,5 +1,4 @@
-import { PlaywrightServer } from "@paas/server";
-
+import {PlaywrightServer} from '@playgrid/server';
 const SERVER_PORT = +(process.env["PAAS_SERVER_PORT"] ?? "9988")
 
 /**

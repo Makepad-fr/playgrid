@@ -1,9 +1,9 @@
 {
-    "name": "@paas/deamon-app",
-    "description": "The daemon application for the PaaS nodes. This application is built on top of @paas/daemon package and provides an Electron.js based user interface",
+    "name": "@playgrid/deamon-app",
+    "description": "The daemon application for the PaaS nodes. This application is built on top of @playgrid/daemon package and provides an Electron.js based user interface",
     "private": true,
     "dependencies": {
-        "@paas/deamon": "workspace:*"
+        "@playgrid/deamon": "workspace:*"
     },
     "devDependencies": {
         "@makepad/eslint-config": "workspace:*",
