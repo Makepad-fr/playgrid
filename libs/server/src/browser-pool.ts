@@ -48,6 +48,12 @@ export class BrowserPool {
      * @returns The selected browser or undefined, if there's none
      */
     getAvailablebrowser(bts: BrowserTypeString): BrowserPoolElement | undefined {
+        /**
+         * When implementing external daemons, this code will be changed.
+         * We need to have the requesters location and ideally session id
+         * Using these information, we need to query the DaemonPoolServer instance to return the
+         * related browser as BrowserPoolElement to hide daemon details
+         */
         let selectedBrowserPool: BrowserPoolElements
         switch (bts) {
             case 'firefox':
@@ -69,6 +75,10 @@ export class BrowserPool {
     }
 
     static async init(options: CreateBrowserPoolOptions): Promise<BrowserPool> {
+        /**
+         * The init function should initiate the daemon pool server as the browser pool does not need
+         * any browser array
+         */
         const firefoxCreationPromises = [];
         const chromiumBrowserCreationPromises = [];
         const webkitBrowserCreationPromises = [];

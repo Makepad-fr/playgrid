@@ -1,0 +1,27 @@
+{
+    "name": "@paas/deamon",
+    "private": false,
+    "devDependencies": {
+        "@makepad/eslint-config": "workspace:*",
+        "@makepad/tsconfig": "workspace:*",
+        "@typescript-eslint/eslint-plugin": "^5.59.7",
+        "@typescript-eslint/parser": "^5.59.7",
+        "eslint": "8.41.0",
+        "tslib": "^2.5.2",
+        "typescript": "^5.0.0"
+      },
+      "dependencies": {
+        "@paas/core": "workspace:*"
+      },
+    "scripts": {
+        "test": "node_modules/.bin/jest",
+        "lint": "./node_modules/.bin/eslint",
+        "lint:fix": "npm run lint --fix",
+        "build:compile": "./node_modules/.bin/tsc -p tsconfig.json",
+        "build:bundle": "./node_modules/.bin/webpack --config webpack.config.js",
+        "build:format": "npm run lint:fix",
+        "build": "npm run build:format && npm run build:compile",
+        "prestart": "npm run build",
+        "prepublish": "npm run build",
+        "start": "node dist/server.js"
+      }}
