@@ -1,27 +1,9 @@
-import { BrowserPoolElement, BrowserTypeString } from './browser-pool-element';
+import { BrowserPoolElement } from './browser-pool-element';
+import { BrowserPoolBrowserCountStatus, BrowserTypeString, CreateBrowserPoolOptions } from './types';
 
-export type CreateBrowserPoolOptions = {
-    firefox?: number,
-    chromium?: number,
-    webkit?: number
-}
 
-type BrowserCountStatusDetails = {
-    available: number,
-    unavailable: number,
-    total: number
-}
 
-type BrowserPoolBrowserCountStatus = {
-    firefox: BrowserCountStatusDetails,
-    chromium: BrowserCountStatusDetails,
-    webkit: BrowserCountStatusDetails,
-    total: number
-}
 
-export type BrowserPoolStatus = {
-    browsers: BrowserPoolBrowserCountStatus 
-}
 
 type BrowserPoolElements = BrowserPoolElement[];
 
@@ -90,6 +72,7 @@ export class BrowserPool {
         const firefoxCreationPromises = [];
         const chromiumBrowserCreationPromises = [];
         const webkitBrowserCreationPromises = [];
+        // TODO: Initiate the server for peers (daemons)
         if (options.firefox !== undefined) {
             for (let i = 0; i < options.firefox; i++) {
                 firefoxCreationPromises.push(BrowserPoolElement.init('firefox'))

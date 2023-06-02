@@ -1,14 +1,11 @@
-import { BrowserPool, CreateBrowserPoolOptions } from "./browser-pool";
+import { BrowserPool } from "./browser-pool";
 import http from 'http';
 import { WebSocket } from "ws";
-import url from 'url';
-import { BrowserTypeString, isBrowserTypeString } from "./browser-pool-element";
+import {  isBrowserTypeString } from "./browser-pool-element";
 // TODO: Update import statement
 import * as stream from 'node:stream';
 import express, { Express } from "express";
-
-type AuthenticationFunction = (req: http.IncomingMessage) => Promise<string | undefined>;
-
+import { AuthenticationFunction, BrowserTypeString, DisconnectFunction, PlaywrightServerConfig } from "./types";
 
 // TODO: Check possibility to add additional endpoints to the http server
 export class PlaywrightServer {
@@ -16,6 +13,7 @@ export class PlaywrightServer {
     readonly #webSocketServer;
     readonly #browserPool: BrowserPool;
     readonly #authenticate: AuthenticationFunction;
+    readonly #disconnect: DisconnectFunction | undefined
     readonly #app: Express;
 
     /**
@@ -35,12 +33,12 @@ export class PlaywrightServer {
      * @param authenticate The function used to authenticate clients
      * @returns PlaywrightServer instance created with given parameters
      */
-    static async init(options: { browserPoolOptions: CreateBrowserPoolOptions }, authenticate: AuthenticationFunction): Promise<PlaywrightServer> {
+    static async init(options: PlaywrightServerConfig): Promise<PlaywrightServer> {
         const pool = await BrowserPool.init(options.browserPoolOptions);
-        return new PlaywrightServer(pool, authenticate);
+        return new PlaywrightServer(pool, options.authenticate, options.disconnect);
     }
 
-    private constructor(pool: BrowserPool, authenticateFunction: AuthenticationFunction) {
+    private constructor(pool: BrowserPool, authenticateFunction: AuthenticationFunction, disconnect?: DisconnectFunction) {
         // Create the express app for other endpoints
         this.#app = express();
         // Pass the express app to the http.Server
@@ -48,6 +46,7 @@ export class PlaywrightServer {
         this.#webSocketServer = new WebSocket.Server({ noServer: true });
         this.#browserPool = pool;
         this.#authenticate = authenticateFunction;
+        this.#disconnect = disconnect;
         this.#server.on('connection', () => {
             console.log('New connection on server');
         })
@@ -109,7 +108,7 @@ export class PlaywrightServer {
         this.#webSocketServer.on('connection', (ws: WebSocket) => this.#proxyMessagesBetweenClientAndPlaywrightServer(playwrightWs, ws));
 
         // // Handle closing of connections.
-        playwrightWs.on('close', () => this.#handleClosingConnection(socket));
+        playwrightWs.on('close', () => this.#handleClosingConnection(socket, authenticatedUserId));
     }
 
     /**
@@ -155,13 +154,17 @@ export class PlaywrightServer {
      * Handles the connection close
      * @param socket The socket instance
      */
-    #handleClosingConnection(socket: stream.Duplex) {
+    async #handleClosingConnection(socket: stream.Duplex, authenticatedUserId: string) {
         /*
         TODO: Let users to use a custom logging system.
         console.debug(`Connection between client and playwright server is closed`);
         */
         console.debug(`Connection between client and playwright server is closed`);
-
+        // TODO: User should log out
+        if (this.#disconnect) {
+            // If the logout logic provided
+            await this.#disconnect(authenticatedUserId)
+        }
         socket.destroy();
     }
 

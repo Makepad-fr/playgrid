@@ -1,6 +1,6 @@
 import { BrowserServer, BrowserType, chromium, firefox, webkit } from "playwright-core";
+import { BrowserTypeString } from "./types";
 
-export type BrowserTypeString = 'firefox'|'chromium'|'webkit';
 
 export function isBrowserTypeString(value: string): value is BrowserTypeString {
     return ['firefox', 'chromium', 'webkit'].includes(value);
@@ -47,7 +47,6 @@ export class BrowserPoolElement {
     }
 
     get wsEndpoint(): string {
-        console.log('HERREEEE====');
         console.debug(`WsEndpoint getter function called. The browser is undefined? :${this.#browser === undefined}`);
         return this.#browser.wsEndpoint()
     }

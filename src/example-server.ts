@@ -2,8 +2,18 @@ import { firefox } from "playwright";
 import { PlaywrightServer } from ".";
 
 async function main() {
-    const server = await PlaywrightServer.init({browserPoolOptions: {firefox: 1}}, () => Promise.resolve(crypto.randomUUID()));
+    const server = await PlaywrightServer.init({
+      authenticate: () => Promise.resolve(crypto.randomUUID()),
+      browserPoolOptions: {
+        firefox: 3
+      },
+      disconnect: (authenticatedUserId:string) => logout(authenticatedUserId)
+    })
     return server.start(9988)
+}
+
+async function logout(authenticatedUserId: string) {
+  console.log(`User: ${authenticatedUserId} disconnected from playwright`);
 }
 
 async function createBrowserServer(): Promise<void> {
