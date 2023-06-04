@@ -1,4 +1,5 @@
 import { BrowserPoolElement } from './browser-pool-element';
+import { RemoteBrowserPoolServer } from './remote-browser-pool-server';
 import { BrowserPoolBrowserCountStatus, BrowserTypeString, CreateBrowserPoolOptions } from './types';
 
 
@@ -11,11 +12,19 @@ export class BrowserPool {
     readonly #firefoxBrowsers: BrowserPoolElements;
     readonly #chromiumBrowsers: BrowserPoolElements;
     readonly #webkitBrowsers: BrowserPoolElements;
+    readonly #browserPoolServer: RemoteBrowserPoolServer;
 
-    private constructor(firefoxBrowsers: BrowserPoolElement[], chromiumBrowsers: BrowserPoolElement[], webkitServers: BrowserPoolElement[]) {
-        this.#firefoxBrowsers = [...firefoxBrowsers];
-        this.#chromiumBrowsers = [...chromiumBrowsers];
-        this.#webkitBrowsers = [...webkitServers];
+    constructor() {
+        // TODO: Move the port number to the server configuration
+        this.#browserPoolServer = new RemoteBrowserPoolServer(9002);
+        this.#firefoxBrowsers = [];
+        this.#chromiumBrowsers = [];
+        this.#webkitBrowsers = [];
+        this.#initServerListeners();
+    }
+
+    #initServerListeners() {
+
     }
 
     /**
@@ -82,6 +91,7 @@ export class BrowserPool {
         const firefoxCreationPromises = [];
         const chromiumBrowserCreationPromises = [];
         const webkitBrowserCreationPromises = [];
+        // TODO: Once the daemon implementation is done, nothing will initialised in terms of BrowserPoolElement
         // TODO: Initiate the server for peers (daemons)
         if (options.firefox !== undefined) {
             for (let i = 0; i < options.firefox; i++) {
@@ -105,7 +115,7 @@ export class BrowserPool {
             Promise.all(webkitBrowserCreationPromises)])
         console.debug(`Number of firefox: ${firefoxs.length}, expected number: ${options.firefox}`);
         console.debug(`Firefox ws endpoint: ${firefoxs[0]?.wsEndpoint}`)
-        return new BrowserPool(firefoxs, chromiums, webkits);
+        return new BrowserPool();
     }
 }
 

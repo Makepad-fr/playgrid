@@ -1,12 +1,18 @@
 import WebSocket from 'ws';
 import http from 'http';
+import { EventEmitter } from 'events';
 
-export class RemoteBrowserPoolServer {
+export const NEW_NODE_CONNECTED_EVENT = 'new-daemon-connected';
+
+export class RemoteBrowserPoolServer extends EventEmitter {
 
     readonly #wss: WebSocket.Server
+    readonly #nodes: Record<string, WebSocket>:
 
-    constructor() {
-        this.#wss = new WebSocket.Server({ port: 8080 });
+    constructor(port: number) {
+        super();
+        this.#nodes = {};
+        this.#wss = new WebSocket.Server({ port });
         this.#initHandlers();
     }
 
@@ -52,6 +58,8 @@ export class RemoteBrowserPoolServer {
         }
         // Daemon passed the validation test
 
+
+        //
         ws.send('Hello, client! You are connected.');
 
         // When we receive a message...
@@ -67,10 +75,16 @@ export class RemoteBrowserPoolServer {
                 const parsedMessage = JSON.parse(message);
                 if (parsedMessage['action'] === 'browser-config') {
                     const daemonConfig = parsedMessage['data'];
+                    // Handle the new validated node connection once the browser config recieved
+                    this.#handleValidNodeConnection(ws);
                     // TODO: Save daemon config, ws, and authenticated daemon id some where
                 }
                 // TODO: Daemon should also emit a message when playwright server is closed or crashed
                 // TODO: Daemon should also emit message when playwright server has an error
+                // TODO: Daemon should also emit message when their config is changed
+                // TODO: Daemon should also emit message to log the ressource usage
+                // TODO: Daemon should also emt a message when its closed
+
             } catch (e) {
                 // If the parsing fails, it is not a JSON message
             }
@@ -79,5 +93,23 @@ export class RemoteBrowserPoolServer {
 
     #handleConnectionClosed() {
         console.log('A daemon disconnected')
+    }
+
+    #handleValidNodeConnection(ws: WebSocket) {
+        const uuid = crypto.randomUUID();
+        // Adding it to the nodes map
+        this.#nodes[uuid] = ws;
+
+        // Emit the event to the listeners of the server
+        this.emit(NEW_NODE_CONNECTED_EVENT, {
+            data: {
+                uuid,
+                /* 
+                TODO: Send the browser related configuration
+                 of theconnected node
+                 */
+                browsers: {},
+            }
+        })
     }
 }
