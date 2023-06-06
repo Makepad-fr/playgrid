@@ -14,9 +14,9 @@ export class BrowserPool {
     readonly #webkitBrowsers: BrowserPoolElements;
     readonly #browserPoolServer: RemoteBrowserPoolServer;
 
-    constructor() {
+    constructor(daemonServerPort: number) {
         // TODO: Move the port number to the server configuration
-        this.#browserPoolServer = new RemoteBrowserPoolServer(9002);
+        this.#browserPoolServer = new RemoteBrowserPoolServer(daemonServerPort);
         this.#firefoxBrowsers = [];
         this.#chromiumBrowsers = [];
         this.#webkitBrowsers = [];
@@ -81,41 +81,6 @@ export class BrowserPool {
                 throw new Error(`Browser type: ${bts} is not supported yet`)
         }
         return findBestBrowser(selectedBrowserPool)
-    }
-
-    static async init(options: CreateBrowserPoolOptions): Promise<BrowserPool> {
-        /**
-         * The init function should initiate the daemon pool server as the browser pool does not need
-         * any browser array
-         */
-        const firefoxCreationPromises = [];
-        const chromiumBrowserCreationPromises = [];
-        const webkitBrowserCreationPromises = [];
-        // TODO: Once the daemon implementation is done, nothing will initialised in terms of BrowserPoolElement
-        // TODO: Initiate the server for peers (daemons)
-        if (options.firefox !== undefined) {
-            for (let i = 0; i < options.firefox; i++) {
-                firefoxCreationPromises.push(BrowserPoolElement.init('firefox'))
-            }
-        }
-        if (options.chromium !== undefined) {
-            for (let i = 0; i < options.chromium; i++) {
-                chromiumBrowserCreationPromises.push(BrowserPoolElement.init('chromium'))
-            }
-        }
-        if (options.webkit !== undefined) {
-            for (let i = 0; i < options.webkit; i++) {
-                webkitBrowserCreationPromises.push(BrowserPoolElement.init('webkit'))
-            }
-        }
-
-        const [firefoxs, chromiums, webkits] = await Promise.all([
-            Promise.all(firefoxCreationPromises),
-            Promise.all(chromiumBrowserCreationPromises),
-            Promise.all(webkitBrowserCreationPromises)])
-        console.debug(`Number of firefox: ${firefoxs.length}, expected number: ${options.firefox}`);
-        console.debug(`Firefox ws endpoint: ${firefoxs[0]?.wsEndpoint}`)
-        return new BrowserPool();
     }
 }
 

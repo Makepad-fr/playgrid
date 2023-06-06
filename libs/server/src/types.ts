@@ -28,5 +28,6 @@ type BrowserCountStatusDetails = {
 export type PlaywrightServerConfig = {
     authenticate: AuthenticationFunction,
     disconnect?: DisconnectFunction,
-    browserPoolOptions: CreateBrowserPoolOptions
+    browserPoolOptions: CreateBrowserPoolOptions,
+    daemonServerPortNumber?: number
 }

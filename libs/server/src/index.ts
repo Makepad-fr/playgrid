@@ -27,26 +27,21 @@ export class PlaywrightServer {
         });
     }
 
-    /**
-     * Creates a new PlaywrightServer instance with given parameters
-     * @param options Options for the browser pool
-     * @param authenticate The function used to authenticate clients
-     * @returns PlaywrightServer instance created with given parameters
-     */
-    static async init(options: PlaywrightServerConfig): Promise<PlaywrightServer> {
-        const pool = await BrowserPool.init(options.browserPoolOptions);
-        return new PlaywrightServer(pool, options.authenticate, options.disconnect);
-    }
 
-    private constructor(pool: BrowserPool, authenticateFunction: AuthenticationFunction, disconnect?: DisconnectFunction) {
+    /**
+     * Creates a new instances of PlaywrightServer with the given PlaywrightServerConfig configurations
+     * @param options The playwright server configuration
+     */
+    constructor(options: PlaywrightServerConfig) {
+        const pool = new BrowserPool(options.daemonServerPortNumber ?? +(process.env['DAEMON_SERVER_PORT_NUMBER'] ?? '9002'))
         // Create the express app for other endpoints
         this.#app = express();
         // Pass the express app to the http.Server
         this.#server = http.createServer(this.#app);
         this.#webSocketServer = new WebSocket.Server({ noServer: true });
         this.#browserPool = pool;
-        this.#authenticate = authenticateFunction;
-        this.#disconnect = disconnect;
+        this.#authenticate = options.authenticate;
+        this.#disconnect = options.disconnect;
         this.#server.on('connection', () => {
             console.log('New connection on server');
         })

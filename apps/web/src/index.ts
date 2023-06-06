@@ -1,4 +1,4 @@
-import {PlaywrightServer} from '@playgrid/server';
+import { PlaywrightServer } from '@playgrid/server';
 const SERVER_PORT = +(process.env["PAAS_SERVER_PORT"] ?? "9988")
 
 /**
@@ -15,20 +15,21 @@ const SERVER_PORT = +(process.env["PAAS_SERVER_PORT"] ?? "9988")
  */
 
 async function main() {
-    const server = await PlaywrightServer.init({
-      authenticate: () => Promise.resolve(crypto.randomUUID()),
-      browserPoolOptions: {
-        firefox: 3
-      },
-      disconnect: (authenticatedUserId:string) => logout(authenticatedUserId)
-    })
-    return server.start(SERVER_PORT)
+  const server = new PlaywrightServer({
+    authenticate: () => Promise.resolve(crypto.randomUUID()),
+    browserPoolOptions: {
+      firefox: 3
+    },
+    disconnect: (authenticatedUserId: string) => logout(authenticatedUserId),
+    daemonServerPortNumber: 9002
+  })
+return server.start(SERVER_PORT)
 }
 
 async function logout(authenticatedUserId: string) {
   console.log(`User: ${authenticatedUserId} disconnected from playwright`);
 }
-  
+
 //   createBrowserServer();
 
 main().then()

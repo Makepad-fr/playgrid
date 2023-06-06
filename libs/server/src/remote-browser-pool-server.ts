@@ -7,7 +7,7 @@ export const NEW_NODE_CONNECTED_EVENT = 'new-daemon-connected';
 export class RemoteBrowserPoolServer extends EventEmitter {
 
     readonly #wss: WebSocket.Server
-    readonly #nodes: Record<string, WebSocket>:
+    readonly #nodes: Record<string, WebSocket>;
 
     constructor(port: number) {
         super();
