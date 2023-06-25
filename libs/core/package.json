@@ -2,6 +2,8 @@
     "name": "@playgrid/core",
     "version": "0.0.1",
     "private": false,
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "devDependencies": {
         "@makepad/eslint-config": "workspace:*",
         "@makepad/tsconfig": "workspace:*",
