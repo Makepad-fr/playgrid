@@ -4,12 +4,53 @@
 // TODO: Send a message to the connected server
 // TODO: Receive messages from connected serber
 
+import { BrowserTypeString } from '@playgrid/core';
+import { fork, ChildProcess } from 'child_process';
+
+interface DaemonConfigRessourceLimits {
+    cpu?: number,
+    memory?: number
+}
+
+interface DaemonConfigScaling {
+    min?: number,
+    max?: number
+}
+
+interface DaemonConfig {
+    firefox?: number,
+    chrome?: number,
+    webkit?: number,
+    ressourceLimits?: DaemonConfigRessourceLimits,
+    scaling?: DaemonConfigScaling
+}
+
 export class PlaygridDeamon {
-
     readonly #url: string;
-
-    private constructor(address: string) {
+    readonly #config: DaemonConfig;
+    readonly #process: ChildProcess[];
+    constructor(address: string, config: DaemonConfig) {
+        console.log('Playgrid deamon constructor called');
         this.#url = address;
+        this.#config = config;
+        this.#process = [];
+        this.#createBrowsers();
+    }
+
+    /**
+     * Create browsers following the given daemon configuration.
+     * 
+     */
+    async #createBrowsers() {
+        if (this.#config.firefox) {
+            this.#process.push(...Array.from({ length: this.#config.firefox }, () => createBrowserServer('firefox')));
+        }
+        if (this.#config.chrome) {
+            this.#process.push(...Array.from({length: this.#config.chrome}, () => createBrowserServer('chromium')));
+        }
+        if (this.#config.webkit) {
+            this.#process.push(...Array.from({length: this.#config.webkit}, () => createBrowserServer('webkit')))
+        }
     }
 
     async init(address: string): Promise<PlaygridDeamon> {
@@ -22,10 +63,14 @@ export class PlaygridDeamon {
         by default the minimum number is 1 and the maximum number is the number of CPU
         - All browser servers should be created using child_process to keep the possibility to monitoring them
         */
-        return new PlaygridDeamon(address);
+        return new PlaygridDeamon(address, {});
     }
 
+
+
     start() {
+        // Start browser servers
+
         // Create a new WebSocket connection
         const socket: WebSocket = new WebSocket(this.#url);
 
@@ -52,6 +97,11 @@ export class PlaygridDeamon {
             console.error('WebSocket error: ', event);
         });
     }
+}
+
+
+function createBrowserServer(browserType: BrowserTypeString): ChildProcess {
+    return fork(`${__dirname}/browser-server-process.js`, [JSON.stringify({browserType})]);
 }
 
 const url = 'ws://example.com'; // replace with your WebSocket server URL

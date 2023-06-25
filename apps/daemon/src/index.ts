@@ -1,3 +1,4 @@
+import {PlaygridDeamon} from "@playgrid/deamon";
 /**
  * This module should contain the code for the Daemon application 
  * that used for PaaS peers (or nodes). This should use @playgrid/daemon
@@ -10,3 +11,5 @@
  * readable.
  */
 console.log('Hello world');
+
+const daemon = new PlaygridDeamon("ws://localhost:9988", {})
