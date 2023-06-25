@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "turbo": "node_modules/.bin/turbo",
-    "build": "npm run turbo run build",
+    "build": "npm run turbo run build --bail",
     "dev": "npm run turbo run dev --parallel",
     "lint": "npm run turbo run lint",
     "format": "node_modules/.bin/prettier --write \"**/*.{ts,tsx,md}\""
