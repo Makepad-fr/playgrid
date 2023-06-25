@@ -13,7 +13,9 @@
         "typescript": "^5.0.0"
       },
       "dependencies": {
-        "@playgrid/core": "workspace:*"
+        "@playgrid/core": "workspace:*",
+        "playwright": "1.35.1",
+        "playwright-core": "1.35.1"
       },
     "scripts": {
         "test": "node_modules/.bin/jest",
@@ -25,6 +27,6 @@
         "build": "npm run build:format && npm run build:compile",
         "prestart": "npm run build",
         "prepublish": "npm run build",
-        "start": "node dist/server.js"
+        "postinstall": "npx playwright install"
       }
     }
