@@ -5,7 +5,8 @@ import {  isBrowserTypeString } from "./browser-pool-element";
 // TODO: Update import statement
 import * as stream from 'node:stream';
 import express, { Express } from "express";
-import { AuthenticationFunction, BrowserTypeString, DisconnectFunction, PlaywrightServerConfig } from "./types";
+import { AuthenticationFunction, DisconnectFunction, PlaywrightServerConfig } from "./types";
+import {BrowserTypeString} from '@playgrid/core';
 
 // TODO: Check possibility to add additional endpoints to the http server
 export class PlaywrightServer {

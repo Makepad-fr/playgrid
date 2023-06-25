@@ -1,1 +1,1 @@
-console.log('Welcome from @playgrid/core package')
+export type BrowserTypeString = 'firefox'|'chromium'|'webkit';
