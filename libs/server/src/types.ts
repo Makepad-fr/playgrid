@@ -7,7 +7,6 @@ export type CreateBrowserPoolOptions = {
     chromium?: number,
     webkit?: number
 };
-export type BrowserTypeString = 'firefox'|'chromium'|'webkit';
 export type BrowserPoolStatus = {
     browsers: BrowserPoolBrowserCountStatus 
 }

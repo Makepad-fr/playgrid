@@ -1,6 +1,5 @@
 import { BrowserServer, BrowserType, chromium, firefox, webkit } from "playwright-core";
-import { BrowserTypeString } from "./types";
-
+import {type BrowserTypeString} from '@playgrid/core';
 
 export function isBrowserTypeString(value: string): value is BrowserTypeString {
     return ['firefox', 'chromium', 'webkit'].includes(value);

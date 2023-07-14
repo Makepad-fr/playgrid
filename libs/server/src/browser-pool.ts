@@ -1,7 +1,7 @@
 import { BrowserPoolElement } from './browser-pool-element';
 import { RemoteBrowserPoolServer } from './remote-browser-pool-server';
-import { BrowserPoolBrowserCountStatus, BrowserTypeString, CreateBrowserPoolOptions } from './types';
-
+import { BrowserPoolBrowserCountStatus } from './types';
+import { BrowserTypeString} from '@playgrid/core';
 
 
 
